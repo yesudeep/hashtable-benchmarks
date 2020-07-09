@@ -16,6 +16,12 @@ workspace(name = "hashtable_benchmarks")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
+http_archive(
+    name = "rules_cc",
+    strip_prefix = "rules_cc-master",
+    urls = ["https://github.com/bazelbuild/rules_cc/archive/master.zip"],
+)
+
 # abseil
 http_archive(
     name = "absl",
@@ -33,7 +39,7 @@ http_archive(
 # Google dense_hash_set
 http_archive(
     name = "google_sparsehash",
-    build_file = "//:BUILD.sparsehash",
+    build_file = "//remote:sparsehash.BUILD",
     strip_prefix = "sparsehash-master",
     urls = ["https://github.com/google/sparsehash/archive/master.zip"],
 )
@@ -43,14 +49,16 @@ http_archive(
     strip_prefix = "gflags-master",
     urls = ["https://github.com/gflags/gflags/archive/master.zip"],
 )
+
 http_archive(
     name = "com_github_google_glog",
     strip_prefix = "glog-master",
     urls = ["https://github.com/google/glog/archive/master.zip"],
 )
+
 http_archive(
     name = "com_github_google_double_conversion",
-    build_file = "//:BUILD.double_conversion",
+    build_file = "//remote:double_conversion.BUILD",
     strip_prefix = "double-conversion-master",
     urls = ["https://github.com/google/double-conversion/archive/master.zip"],
 )
@@ -58,7 +66,7 @@ http_archive(
 # Facebook folly
 http_archive(
     name = "facebook_folly",
-    build_file = "//:BUILD.folly",
+    build_file = "//remote:folly.BUILD",
     strip_prefix = "folly-master",
     urls = ["https://github.com/facebook/folly/archive/master.zip"],
 )
@@ -66,9 +74,16 @@ http_archive(
 # ska::flat_hash_set and ska::bytell_hash_set
 http_archive(
     name = "skarupke",
-    build_file = "//:BUILD.skarupke",
+    build_file = "//remote:skarupke.BUILD",
     strip_prefix = "flat_hash_map-master",
     urls = ["https://github.com/skarupke/flat_hash_map/archive/master.zip"],
+)
+
+http_archive(
+    name = "parallel_hashmap",
+    build_file = "//remote:parallel_hashmap.BUILD",
+    strip_prefix = "parallel-hashmap-master",
+    urls = ["https://github.com/greg7mdp/parallel-hashmap/archive/master.zip"],
 )
 
 http_archive(

@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+
 cc_library(
     name = "sparsehash_config",
     hdrs = ["sparseconfig.h"],
@@ -29,25 +31,26 @@ cc_binary(
     name = "hashtable_benchmarks",
     srcs = ["hashtable_benchmarks.cc"],
     copts = ["-Wno-deprecated"],
+    stamp = True,
     deps = [
         ":build_info",
-        "@absl//absl/strings",
-        "@absl//absl/strings:str_format",
         "@absl//absl/container:flat_hash_set",
         "@absl//absl/container:node_hash_set",
+        "@absl//absl/strings",
+        "@absl//absl/strings:str_format",
         "@boost//:preprocessor",
         "@facebook_folly//:folly",
         "@gbench//:benchmark_main",
         "@google_sparsehash//:sparsehash",
-        "@skarupke//:skarupke",
+        "@parallel_hashmap",
+        "@skarupke",
     ],
-    stamp = True,
 )
 
 cc_binary(
     name = "dynamic_rehash_effect",
     srcs = ["dynamic_rehash_effect.cc"],
     deps = [
-        "@skarupke//:skarupke",
+        "@skarupke",
     ],
 )

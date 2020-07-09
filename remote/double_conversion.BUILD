@@ -1,5 +1,7 @@
 # Bazel(http://bazel.io) BUILD file
 
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
 licenses(["notice"])
 
 exports_files(["LICENSE"])
@@ -19,7 +21,10 @@ cc_library(
 
 cc_test(
     name = "cctest",
-    srcs = glob(["test/cctest/*.cc", "test/cctest/*.h"]),
+    srcs = glob([
+        "test/cctest/*.cc",
+        "test/cctest/*.h",
+    ]),
     args = [
         "test-bignum",
         "test-bignum-dtoa",

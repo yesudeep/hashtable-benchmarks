@@ -15,13 +15,19 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
-#include <hash_set>
 #include <limits>
 #include <random>
 #include <string>
 #include <type_traits>
 #include <unordered_set>
 #include <utility>
+
+// Non-standard header that has a different location for both OS X and GCC.
+#if defined(__GNUC__) || defined(__APPLE__)
+#include <ext/hash_set>
+#else
+#include <hash_set>
+#endif
 
 #include "build_info.h"
 #include "benchmark/benchmark.h"
@@ -32,6 +38,7 @@
 #include "boost/preprocessor.hpp"
 #include "google/dense_hash_set"
 #include "folly/container/F14Set.h"
+#include "parallel_hashmap/phmap.h"
 
 #if defined(__GNUC__) || defined(__clang__)
 #define HT_BENCH_FLATTEN __attribute__((__flatten__))
@@ -958,15 +965,17 @@ void ConfigureBenchmark(benchmark::internal::Benchmark* b) {
     (Density::kMin) \
     (Density::kMax)
 
-#define SET_TYPES          \
-  (__gnu_cxx::hash_set)    \
-  (std::unordered_set)     \
-  (google::dense_hash_set) \
-  (absl::flat_hash_set)    \
-  (absl::node_hash_set)    \
-  (folly::F14ValueSet)     \
-  (folly::F14NodeSet)      \
-  (folly::F14VectorSet)
+#define SET_TYPES                  \
+  (__gnu_cxx::hash_set)            \
+  (std::unordered_set)             \
+  (google::dense_hash_set)         \
+  (absl::flat_hash_set)            \
+  (absl::node_hash_set)            \
+  (folly::F14ValueSet)             \
+  (folly::F14NodeSet)              \
+  (folly::F14VectorSet)            \
+  (phmap::flat_hash_set)           //           \
+  // (phmap::parallel_flat_hash_set)
 // clang-format on
 
 #define DEFINE_BENCH_I(bench, env, set, value_size, density)   \
